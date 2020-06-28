@@ -1,6 +1,5 @@
 import React from 'react';
-import { Dimensions, Text, View } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
+import { Dimensions, Text, View, Image, StyleSheet } from 'react-native';
 import Animated, {
   Value,
   cond,
@@ -16,11 +15,8 @@ import Animated, {
   neq,
   set,
   interpolate,
-  sub,
-  color,
   spring,
-  greaterThan,
-  clockRunning,
+  concat,
 } from 'react-native-reanimated';
 import { TapGestureHandler, State } from 'react-native-gesture-handler';
 
@@ -32,17 +28,53 @@ const todos = [
 ];
 
 const width = Dimensions.get('window').width;
+
 function Bars() {
+  const state = new Value(State.UNDETERMINED);
+  const onGestureEvent = event([{ nativeEvent: { state } }]);
+
+  const opClock = new Clock();
+  const opacity = runOpacityTimer(opClock, state);
+  const backOpacity = Platform.OS === 'android' ? cond(opacity, 0, 1) : 1;
+  const rotateYAsDeg = interpolate(opacity, {
+    inputRange: [0, 1],
+    outputRange: [0, -180],
+  });
+  const rotateY = concat(rotateYAsDeg, 'deg');
+
   return (
-    <Animated.View style={{ margin: 10 }}>
-      {todos.map((todo) => {
-        return <Bar key={todo.id} {...todo} />;
-      })}
-    </Animated.View>
+    <View style={{ margin: 10 }}>
+      <TapGestureHandler onHandlerStateChange={onGestureEvent}>
+        <Animated.View
+          style={{
+            ...StyleSheet.absoluteFillObject,
+            height: 200,
+            width: width - 20,
+            backgroundColor: '#FFF',
+            opacity: backOpacity,
+            backfaceVisibility: 'hidden',
+            transform: [
+              { perspective: 800 },
+              { rotateY: '180deg' },
+              { rotateY },
+            ],
+          }}>
+          <Text style={{ color: '#333', fontSize: 72 }}>Hello</Text>
+        </Animated.View>
+      </TapGestureHandler>
+      <TapGestureHandler onHandlerStateChange={onGestureEvent}>
+        <Animated.View
+          style={{
+            height: 200,
+            width: width - 20,
+            backgroundColor: '#FFF',
+            backfaceVisibility: 'hidden',
+            transform: [{ perspective: 800 }, { rotateY }],
+          }}></Animated.View>
+      </TapGestureHandler>
+    </View>
   );
 }
-
-const AnimatedGradient = Animated.createAnimatedComponent(LinearGradient);
 
 const runOpacityTimer = (clock, gestureState) => {
   const state = {
@@ -53,7 +85,7 @@ const runOpacityTimer = (clock, gestureState) => {
   };
 
   const config = {
-    duration: 500,
+    duration: 1000,
     toValue: new Value(-1),
     easing: Easing.inOut(Easing.ease),
   };
@@ -88,7 +120,7 @@ function runPinchTimer(clock, gestureState) {
   };
 
   const config = {
-    duration: 200,
+    duration: 500,
     toValue: new Value(-1),
     easing: Easing.inOut(Easing.ease),
   };
@@ -153,78 +185,5 @@ const runSpring = (clock, gestureState) => {
     state.position,
   ]);
 };
-
-function Bar(todo) {
-  const state = new Value(State.UNDETERMINED);
-  const onGestureEvent = event([{ nativeEvent: { state } }]);
-
-  const opClock = new Clock();
-  const pinClock = new Clock();
-  const cardClock = new Clock();
-  const opacity = runOpacityTimer(opClock, state);
-  const pinch = runPinchTimer(pinClock, state);
-  const card = runSpring(cardClock, state);
-
-  return (
-    <View
-      style={{
-        margin: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
-      <Animated.View
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <TapGestureHandler onHandlerStateChange={onGestureEvent}>
-          <Animated.View
-            style={{
-              height: 64,
-              width: width - 20,
-              backgroundColor: '#FFF',
-              zIndex: 999,
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: 5,
-              backgroundColor: '#fff',
-              shadowColor: '#333',
-              shadowOffset: {
-                width: 0,
-                height: 3,
-              },
-              shadowOpacity: 0.45,
-              shadowRadius: 3.84,
-              elevation: 5,
-              opacity: interpolate(pinch, {
-                inputRange: [0, 1],
-                outputRange: [1, 0.6],
-              }),
-            }}></Animated.View>
-        </TapGestureHandler>
-        <Animated.View
-          style={{
-            width: width - 75,
-            height: interpolate(card, {
-              inputRange: [0, 1],
-              outputRange: [0, 200],
-            }),
-            shadowColor: '#333',
-            shadowOffset: {
-              width: 0,
-              height: 1,
-            },
-            backgroundColor: '#fff',
-            borderBottomLeftRadius: 5,
-            borderBottomRightRadius: 5,
-            shadowOpacity: 0.45,
-            shadowRadius: 3.84,
-            elevation: 5,
-            backgroundColor: '#FFF',
-          }}></Animated.View>
-      </Animated.View>
-    </View>
-  );
-}
 
 export default Bars;

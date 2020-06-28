@@ -35,7 +35,7 @@ const App = () => {
       <View style={styles.container}>
         {/* <Graph {...{ data }} /> */}
         <Bars />
-        <Card color="red" data={data} />
+        {/* <Card color="red" data={data} /> */}
       </View>
     </SafeAreaView>
   );

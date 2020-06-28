@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import { StyleSheet, Dimensions, Button, View } from 'react-native';
+import { StyleSheet, Dimensions, Button, View, Text } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import Animated, { concat, Value, Easing } from 'react-native-reanimated';
 import { scaleTime } from 'd3';
@@ -27,60 +27,27 @@ export default (props) => {
         style={{
           justifyContent: 'center',
           alignItems: 'center',
+          transform: [{ rotateY: 79 }],
         }}>
         <View
           style={{
-            height: 50,
-            width: cardWidth - 20,
-            backgroundColor: '#FFF',
-            zIndex: 999,
-            shadowColor: '#333',
-            shadowOffset: {
-              width: 1,
-              height: 8,
-            },
-            backgroundColor: '#fff',
-            shadowOpacity: 0.45,
-            shadowRadius: 3.84,
-            elevation: 5,
-          }}></View>
-        <View
-          style={{
-            width: cardWidth - 75,
             height: 200,
-            backgroundColor: '#FFF',
-          }}></View>
-      </View>
-      <View
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginTop: 50,
-        }}>
-        <View
-          style={{
-            height: 50,
             width: cardWidth - 20,
             backgroundColor: '#FFF',
             zIndex: 999,
             shadowColor: '#333',
             shadowOffset: {
-              width: 1,
-              height: 8,
+              width: 0,
+              height: 3,
             },
             backgroundColor: '#fff',
             shadowOpacity: 0.45,
             shadowRadius: 3.84,
             elevation: 5,
-          }}></View>
+          }}>
+          <Text>hello</Text>
+        </View>
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  card: {
-    height: cardHeight,
-    borderRadius: 10,
-  },
-});
