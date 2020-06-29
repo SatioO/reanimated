@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Dimensions } from 'react-native';
 import Svg, {
   Path,
@@ -18,6 +18,8 @@ import Animated, {
   concat,
   Extrapolate,
   add,
+  useCode,
+  call,
 } from 'react-native-reanimated';
 import {
   interpolatePath,
@@ -54,7 +56,7 @@ const months = [
   'DEC',
 ];
 
-export default function AreaChart(props) {
+export default memo((props) => {
   const animation = React.useRef(new Animated.Value(0));
   const dragX = React.useRef(new Animated.Value(0));
   const offsetX = React.useRef(new Animated.Value(0));
@@ -134,8 +136,18 @@ export default function AreaChart(props) {
   const translateX = sub(cx, 0);
   const translateY = sub(cy, 0);
 
+  useCode(() =>
+    call(
+      [translateY],
+      ([value]) => {
+        props.onValue(y.invert(value));
+      },
+      [translateY],
+    ),
+  );
+
   return (
-    <PanGestureHandler {...gestureHandler}>
+    <PanGestureHandler {...gestureHandler} minPointers={1} maxPointers={1}>
       <AnimatedSvg
         style={{
           height,
@@ -179,4 +191,4 @@ export default function AreaChart(props) {
       </AnimatedSvg>
     </PanGestureHandler>
   );
-}
+});
