@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Dimensions, View, StyleSheet, Text as RNText } from 'react-native';
 import Animated, {
   Value,
@@ -20,6 +20,8 @@ import Animated, {
   neq,
   timing,
   add,
+  useCode,
+  call,
 } from 'react-native-reanimated';
 import Svg, {
   Path,
@@ -85,6 +87,7 @@ const styles = StyleSheet.create({
 });
 
 function Chart(props) {
+  const [balance, setBalance] = useState(0);
   const state = new Value(State.UNDETERMINED);
   // const onGestureEvent = event([{ nativeEvent: { state } }]);
   const animation = React.useRef(new Animated.Value(0));
@@ -118,15 +121,18 @@ function Chart(props) {
 
   const y = d3
     .scaleLinear()
-    .domain(array.extent(props.data.map((d) => d.value)))
-    .range([height, 0])
+    .domain([
+      Math.min(...props.data.map((d) => d.value)),
+      Math.max(...props.data.map((d) => d.value)),
+    ])
+    .range([height - 24, 24])
     .clamp(true);
 
   const line = d3
     .line()
-    .curve(d3.curveBundle)
     .x((d) => x(d.date))
-    .y((d) => y(d.value));
+    .y((d) => y(d.value))
+    .curve(d3.curveNatural);
 
   const ticks = d3
     .scaleTime()
@@ -159,7 +165,7 @@ function Chart(props) {
       velocity: velocityX.current,
       value: transX,
     }),
-    10,
+    0,
     width - 20,
   );
 
@@ -172,8 +178,14 @@ function Chart(props) {
   });
 
   const { x: cx, y: cy } = getPointAtLength(parsedPath, lineLength);
-  const translateX = sub(cx, 14 / 2);
+  const translateX = sub(cx, 0);
   const translateY = sub(cy, 0);
+
+  // useCode(() => {
+  //   return call([translateY], ([value]) => {
+  //     // setBalance();
+  //   });
+  // }, [translateY]);
 
   return (
     <View style={{ margin: 10 }}>
@@ -209,7 +221,7 @@ function Chart(props) {
                 </RNText>
                 <RNText
                   style={{ fontSize: 36, fontWeight: '700', color: '#cc0066' }}>
-                  $ 2,300.00
+                  $ {balance.toFixed(2)}
                 </RNText>
               </View>
               <View
