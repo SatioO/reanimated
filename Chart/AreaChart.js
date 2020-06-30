@@ -1,45 +1,23 @@
 import React, { memo } from 'react';
-import { Dimensions } from 'react-native';
+import { View, Dimensions } from 'react-native';
 import Svg, {
   Path,
   Defs,
   LinearGradient,
   Stop,
   Text,
-  Rect,
-  Circle,
+  G,
 } from 'react-native-svg';
-import Animated, {
-  cond,
-  eq,
-  sub,
-  set,
-  interpolate,
-  concat,
-  Extrapolate,
-  add,
-  useCode,
-  call,
-} from 'react-native-reanimated';
-import {
-  interpolatePath,
-  parsePath,
-  getPointAtLength,
-  onGestureEvent,
-  clamp,
-  withDecay,
-} from 'react-native-redash';
-import { PanGestureHandler, State } from 'react-native-gesture-handler';
+import Animated, { concat } from 'react-native-reanimated';
+import { useValue } from 'react-native-redash';
 import * as d3 from 'd3';
-import * as array from 'd3-array';
+import Cursor from './Cursor';
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);
-const AnimatedRect = Animated.createAnimatedComponent(Rect);
-const AnimatedCircle = Animated.createAnimatedComponent(Circle);
-const AnimatedSvg = Animated.createAnimatedComponent(Svg);
+const AnimatedGroup = Animated.createAnimatedComponent(G);
 
 const width = Dimensions.get('window').width;
-const height = 140;
+const height = 130;
 
 const months = [
   'JAN',
@@ -57,29 +35,18 @@ const months = [
 ];
 
 export default memo((props) => {
-  const animation = React.useRef(new Animated.Value(0));
-  const dragX = React.useRef(new Animated.Value(0));
-  const offsetX = React.useRef(new Animated.Value(0));
-  const velocityX = React.useRef(new Animated.Value(0));
-  const gestureState = React.useRef(new Animated.Value(State.UNDETERMINED));
-  const gestureHandler = onGestureEvent({
-    translationX: dragX.current,
-    state: gestureState.current,
-    velocityX: velocityX.current,
-  });
+  const scale = useValue(0);
+  const dataXrange = d3.extent(props.data, (d) => d.date);
+  const dataYrange = d3.extent(props.data, (d) => d.value);
 
   const x = d3
     .scaleTime()
-    .domain([new Date('1/1/2020'), new Date('12/1/2020')])
-    .range([0, width - 20])
-    .nice();
+    .domain(dataXrange)
+    .range([0, width - 20]);
 
   const y = d3
     .scaleLinear()
-    .domain([
-      Math.min(...props.data.map((d) => d.value)),
-      Math.max(...props.data.map((d) => d.value)),
-    ])
+    .domain(dataYrange)
     .range([height - 24, 24])
     .clamp(true);
 
@@ -91,67 +58,27 @@ export default memo((props) => {
 
   const ticks = d3
     .scaleTime()
-    .domain(array.extent(props.data.map((d) => d.date)))
+    .domain(dataXrange)
     .range([16, width - 36]);
 
-  const d = interpolatePath(animation.current, {
-    inputRange: [0, width - 20],
-    outputRange: [
-      line(
-        props.data.map((item) => ({
-          date: item.date,
-          value: item.value,
-        })),
-      ),
-      line(props.data),
-    ],
-    extrapolate: Extrapolate.CLAMP,
-  });
-
-  const transX = cond(
-    eq(gestureState.current, State.ACTIVE),
-    add(offsetX.current, dragX.current),
-    set(offsetX.current, add(offsetX.current, dragX.current)),
-  );
-
-  const dx = clamp(
-    withDecay({
-      state: gestureState.current,
-      velocity: velocityX.current,
-      value: transX,
-    }),
-    0,
-    width - 20,
-  );
-
-  const parsedPath = parsePath(line(props.data));
-
-  const lineLength = interpolate(dx, {
-    inputRange: [0, width - 20],
-    outputRange: [0, parsedPath.totalLength],
-    extrapolate: Extrapolate.CLAMP,
-  });
-
-  const { x: cx, y: cy } = getPointAtLength(parsedPath, lineLength);
-  const translateX = sub(cx, 0);
-  const translateY = sub(cy, 0);
-
-  useCode(() =>
-    call(
-      [translateY],
-      ([value]) => {
-        props.onValue(y.invert(value));
-      },
-      [translateY],
-    ),
-  );
+  function onValue(value) {
+    props.onValue(y.invert(value));
+  }
 
   return (
-    <PanGestureHandler {...gestureHandler} minPointers={1} maxPointers={1}>
-      <AnimatedSvg
+    <View
+      style={{
+        height,
+        width: width - 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
+      <Svg
         style={{
           height,
           width: width - 20,
+          alignItems: 'center',
+          justifyContent: 'center',
         }}>
         <Defs>
           <LinearGradient id="grad" x1="0" y1="0" x2="1" y2="0">
@@ -160,35 +87,33 @@ export default memo((props) => {
           </LinearGradient>
         </Defs>
         <AnimatedPath
-          d={concat(d, `L${width - 20}, ${height} L0 ${height} Z`)}
+          d={concat(
+            line(props.data),
+            `L${width - 20}, ${height} L0 ${height} Z`,
+          )}
           stroke={'none'}
           fill="url(#grad)"
         />
-        <AnimatedRect
-          x={sub(translateX, 36)}
-          y={20}
-          width="72"
-          height={140}
-          fill="rgb(221, 221, 221, 0.3)"
-        />
-        <AnimatedCircle cx={translateX} cy={translateY} r="14" fill="#FFF" />
-        <AnimatedCircle cx={translateX} cy={translateY} r="8" fill="#ED06FE" />
-        {ticks.ticks(d3.timeMonth.every(2)).map((tick, index) => {
-          return (
+        <AnimatedGroup
+          y={scale.interpolate({
+            inputRange: [0, 1],
+            outputRange: [height, height - 20],
+          })}>
+          {ticks.ticks(d3.timeMonth.every(2)).map((tick, index) => (
             <Text
               textAnchor={'middle'}
               originX={x(tick)}
               alignmentBaseline={'hanging'}
               x={ticks(tick)}
-              y={120}
               fontSize={12}
               fill="#FFF"
               key={index}>
               {months[tick.getMonth()]}
             </Text>
-          );
-        })}
-      </AnimatedSvg>
-    </PanGestureHandler>
+          ))}
+        </AnimatedGroup>
+      </Svg>
+      <Cursor {...{ height, width, path: line(props.data), onValue }} />
+    </View>
   );
 });

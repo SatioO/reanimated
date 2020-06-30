@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { Dimensions, View, StyleSheet, Text } from 'react-native';
 import AreaChart from './AreaChart';
-import { debounce } from './debounce';
 
 const width = Dimensions.get('window').width;
 
@@ -34,7 +33,7 @@ function Chart(props) {
   return (
     <View style={{ margin: 10 }}>
       <View style={[styles.card, styles.shadow]}>
-        <View style={{ flex: 2 }}>
+        <View style={{ flex: 1 }}>
           <View style={{ flex: 1, padding: 14 }}>
             <Text style={{ fontSize: 14, fontWeight: '500', color: '#333' }}>
               Balance
@@ -43,14 +42,7 @@ function Chart(props) {
               $ {balance.toFixed(2)}
             </Text>
           </View>
-          <View
-            style={{
-              flex: 2,
-              alignItems: 'flex-end',
-              justifyContent: 'flex-end',
-            }}>
-            <AreaChart data={props.data} onValue={onValue} />
-          </View>
+          <AreaChart data={props.data} onValue={onValue} />
         </View>
       </View>
     </View>
