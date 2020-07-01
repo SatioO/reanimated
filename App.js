@@ -9,21 +9,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#ddd',
   },
 });
-
-// const data = [50, 10, 40, 95, -4, -24, 85, 0, 35, 53, -53, 24, 50, -20, -80];
+//77.99999999999994, 31.38
 const data = [
-  { date: new Date(2020, 0, 1), value: 69 },
-  { date: new Date(2020, 1, 1), value: 60 },
-  { date: new Date(2020, 2, 1), value: 40 },
-  { date: new Date(2020, 3, 1), value: 65 },
-  { date: new Date(2020, 4, 1), value: 47 },
-  { date: new Date(2020, 5, 1), value: 69 },
-  { date: new Date(2020, 6, 1), value: 36 },
-  { date: new Date(2020, 7, 1), value: 100 },
-  { date: new Date(2020, 8, 1), value: 63 },
-  { date: new Date(2020, 9, 1), value: 32 },
-  { date: new Date(2020, 10, 1), value: 65 },
-  { date: new Date(2020, 11, 1), value: 43 },
+  { date: new Date('1/1/2020'), value: 60 },
+  { date: new Date('2/1/2020'), value: 40 },
+  { date: new Date('3/1/2020'), value: 65 },
+  { date: new Date('4/1/2020'), value: 47 },
+  { date: new Date('5/1/2020'), value: 69 },
+  { date: new Date('6/1/2020'), value: 36 },
+  { date: new Date('7/1/2020'), value: 100 },
+  { date: new Date('8/1/2020'), value: 63 },
+  { date: new Date('9/1/2020'), value: 32 },
+  { date: new Date('10/1/2020'), value: 65 },
+  { date: new Date('11/1/2020'), value: 43 },
+  { date: new Date('12/1/2020'), value: 69 },
 ];
 
 const App = () => {

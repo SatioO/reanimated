@@ -10,33 +10,40 @@ import Animated, {
   interpolate,
   Extrapolate,
   useCode,
+  and,
+  debug,
+  block,
 } from 'react-native-reanimated';
 import { PanGestureHandler, State } from 'react-native-gesture-handler';
 import {
+  clamp,
   parsePath,
   getPointAtLength,
-  onGestureEvent,
-  clamp,
-  withDecay,
   useValue,
+  onGestureEvent,
+  withDecay,
 } from 'react-native-redash';
+import getLengthAtX from './cubic';
+
+const CIRCLE_RADIUS = 12;
 
 export default function Cursor(props) {
   const offsetX = useValue(0);
-  const dragX = useValue(0);
+  const translationX = useValue(0);
   const velocityX = useValue(0);
+  const f = useValue(0);
   const state = useValue(State.UNDETERMINED);
 
   const gestureHandler = onGestureEvent({
-    translationX: dragX,
+    translationX,
     state,
-    velocityX: velocityX,
+    velocityX,
   });
 
   const transX = cond(
     eq(state, State.ACTIVE),
-    add(offsetX, dragX),
-    set(offsetX, add(offsetX, dragX)),
+    add(offsetX, translationX),
+    set(offsetX, add(offsetX, translationX)),
   );
 
   const dx = clamp(
@@ -49,28 +56,38 @@ export default function Cursor(props) {
     props.width - 20,
   );
 
-  const parsedPath = parsePath(props.path);
-
-  const lineLength = interpolate(dx, {
+  const path = parsePath(props.d);
+  const length = interpolate(dx, {
     inputRange: [0, props.width - 20],
-    outputRange: [0, parsedPath.totalLength],
+    outputRange: [0, path.totalLength],
     extrapolate: Extrapolate.CLAMP,
   });
 
-  const { x: tx, y: ty } = getPointAtLength(parsedPath, lineLength);
+  const { y: ty, x: tx } = getPointAtLength(path, length);
+  const ls = getLengthAtX(path, props.scaleX(new Date('3/1/2020')));
 
-  useCode(() =>
-    call(
-      [tx, ty],
-      ([_, yc]) => {
-        props.onValue(yc);
-      },
-      [tx, ty],
-    ),
+  const lsI = interpolate(ls, {
+    inputRange: [0, path.totalLength],
+    outputRange: [0, props.width - 20],
+    extrapolate: Extrapolate.CLAMP,
+  });
+
+  useCode(
+    () =>
+      block([
+        cond(eq(state, State.UNDETERMINED), set(offsetX, lsI)),
+        cond(and(eq(state, State.END), eq(f, 0)), [
+          set(offsetX, 0),
+          set(eq(1)),
+        ]),
+      ]),
+    [state],
   );
 
+  useCode(() => call([ty], ([y]) => props.onValue(y), [ty]));
+
   return (
-    <PanGestureHandler {...gestureHandler} minPointers={1} maxPointers={1}>
+    <PanGestureHandler {...gestureHandler}>
       <Animated.View
         style={{
           ...StyleSheet.absoluteFill,
@@ -80,24 +97,27 @@ export default function Cursor(props) {
         <Animated.View
           style={{
             ...StyleSheet.absoluteFillObject,
-            width: 24,
-            height: 24,
-            borderRadius: 24,
+            width: CIRCLE_RADIUS * 2,
+            height: CIRCLE_RADIUS * 2,
+            borderRadius: CIRCLE_RADIUS * 2,
             backgroundColor: '#FFF',
             transform: [
-              { translateX: sub(tx, 12) },
-              { translateY: sub(ty, 12) },
+              { translateX: sub(tx, CIRCLE_RADIUS) },
+              { translateY: sub(ty, CIRCLE_RADIUS) },
             ],
           }}
         />
         <Animated.View
           style={{
             ...StyleSheet.absoluteFillObject,
-            width: 12,
-            height: 12,
-            borderRadius: 12,
+            width: CIRCLE_RADIUS,
+            height: CIRCLE_RADIUS,
+            borderRadius: CIRCLE_RADIUS,
             backgroundColor: '#ED06FE',
-            transform: [{ translateX: sub(tx, 6) }, { translateY: sub(ty, 6) }],
+            transform: [
+              { translateX: sub(tx, CIRCLE_RADIUS / 2) },
+              { translateY: sub(ty, CIRCLE_RADIUS / 2) },
+            ],
           }}
         />
         <Animated.View
