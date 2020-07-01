@@ -21,9 +21,7 @@ const months = [
 export default function XAxis(props) {
   const translateY = useValue(0);
 
-  const ticks = props.scaleX
-    .range([8, props.width - 16])
-    .ticks(d3.timeMonth.every(2));
+  const ticks = props.scaleX.ticks(d3.timeMonth.every(2));
 
   useEffect(() => {
     Animated.timing(translateY, {
@@ -49,13 +47,13 @@ export default function XAxis(props) {
           ],
         },
       ]}>
-      {ticks.map((tick) => {
+      {ticks.map((tick, i) => {
         return (
           <Text
             style={{
               ...StyleSheet.absoluteFill,
               top: props.height - 20,
-              left: props.scaleX(tick),
+              left: i === 0 ? props.scaleX(tick) + 4 : props.scaleX(tick) - 8,
               color: '#FFF',
               fontSize: 12,
             }}
