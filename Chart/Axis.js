@@ -22,7 +22,7 @@ export default function XAxis(props) {
   const translateY = useValue(0);
 
   const ticks = props.scaleX
-    .range([8, props.width - 8])
+    .range([8, props.width - 16])
     .ticks(d3.timeMonth.every(2));
 
   useEffect(() => {

@@ -50,8 +50,8 @@ export default memo((props) => {
         }}>
         <Defs>
           <LinearGradient id="grad" x1="0" y1="0" x2="1" y2="0">
-            <Stop offset="0" stopColor="#8C04FF" stopOpacity="1" />
-            <Stop offset="1" stopColor="#ED06FE" stopOpacity="1" />
+            <Stop offset="1" stopColor="#8C04FF" stopOpacity="1" />
+            <Stop offset="0" stopColor="#ED06FE" stopOpacity="1" />
           </LinearGradient>
         </Defs>
         <AnimatedPath

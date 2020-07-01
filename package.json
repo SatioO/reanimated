@@ -21,6 +21,7 @@
     "react-native-reanimated": "^1.9.0",
     "react-native-redash": "^14.1.1",
     "react-native-svg": "^12.1.0",
+    "react-native-vector-icons": "^6.6.0",
     "svg-path-properties": "^1.0.4"
   },
   "devDependencies": {
