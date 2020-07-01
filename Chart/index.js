@@ -42,7 +42,7 @@ function Chart(props) {
               $ {balance.toFixed(2)}
             </Text>
           </View>
-          <AreaChart data={props.data} onValue={onValue} />
+          <AreaChart {...props} onValue={onValue} />
         </View>
       </View>
     </View>
