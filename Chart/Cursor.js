@@ -83,13 +83,21 @@ export default function Cursor(props) {
   );
   useCode(() => call([ty], ([y]) => props.onValue(y), [ty]));
 
-  useEffect(() => {
-    Animated.timing(scaleX, {
-      easing: Easing.ease,
-      duration: 500,
-      toValue: 1,
-    }).start();
-  }, []);
+  // useCode(() =>
+  //   call(
+  //     [props.animation],
+  //     (value) => {
+  //       if (value > 1) {
+  //         Animated.timing(scaleX, {
+  //           easing: Easing.ease,
+  //           duration: 500,
+  //           toValue: 1,
+  //         }).start();
+  //       }
+  //     },
+  //     [props.rotateYAsDeg],
+  //   ),
+  // );
 
   return (
     <PanGestureHandler {...gestureHandler}>
@@ -138,7 +146,7 @@ export default function Cursor(props) {
               {
                 translateY: scaleX.interpolate({
                   inputRange: [0, 1],
-                  outputRange: [props.height - 20, 20],
+                  outputRange: [props.height, 20],
                 }),
               },
             ],

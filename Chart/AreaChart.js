@@ -69,6 +69,7 @@ export default memo((props) => {
           scaleX,
           scaleY,
           initial: props.initial,
+          // rotateYAsDeg: props.rotateYAsDeg,
           onValue,
         }}
       />

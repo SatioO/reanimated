@@ -29,7 +29,7 @@ const App = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
-        <Chart {...{ data, initial: new Date('11/1/2020') }} />
+        <Chart {...{ data, initial: new Date('6/1/2020') }} />
       </View>
     </SafeAreaView>
   );
