@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ddd',
   },
 });
-//77.99999999999994, 31.38
+
 const data = [
   { date: new Date('1/1/2020'), value: 60 },
   { date: new Date('2/1/2020'), value: 40 },
