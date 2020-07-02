@@ -28,7 +28,7 @@ export default StyleSheet.create({
   dropdown: {
     backgroundColor: '#FFF',
     borderRadius: spacing,
-    marginLeft: spacing,
+    marginRight: spacing,
     width: 100,
     height: spacing * 2,
     justifyContent: 'center',
@@ -40,5 +40,13 @@ export default StyleSheet.create({
     fontWeight: '500',
     fontSize: 13,
     textTransform: 'capitalize',
+  },
+  cursor: {
+    borderWidth: 5,
+    borderColor: '#3977e3',
+    backgroundColor: 'white',
+    width: 10 * 2,
+    height: 10 * 2,
+    borderRadius: 10,
   },
 });

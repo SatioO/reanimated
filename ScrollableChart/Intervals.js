@@ -11,7 +11,7 @@ export default function Intervals(props) {
       {props.data.map((month, index) => {
         return (
           <View
-            key={month.date}
+            key={month.x}
             style={{
               width: spacing * 3,
               height: spacing * 2,
@@ -19,14 +19,14 @@ export default function Intervals(props) {
               borderRadius: spacing / 2,
               justifyContent: 'center',
               alignItems: 'center',
-              backgroundColor: selected === index && 'rgba(1,87,155, 0.4)',
+              backgroundColor: selected === index && 'rgba(1,87,155, 0.5)',
             }}>
             <Text
               style={[
                 styles.text,
                 { color: selected === index ? '#FFF' : '#888' },
               ]}>
-              {months[month.date.getMonth()]}
+              {months[month.x.getMonth()]}
             </Text>
           </View>
         );

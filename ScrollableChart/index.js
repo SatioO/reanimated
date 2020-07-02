@@ -1,21 +1,22 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import styles from './styles';
 import { View } from 'react-native';
-import { intervals, spacing, width } from './utils';
+import { intervals, spacing, width, height } from './utils';
 import Intervals from './Intervals';
 import IntervalOptions from './IntervalOptions';
+import Chart from './Chart';
 
 function ScrollableChart(props) {
   return (
-    <View>
+    <Fragment>
       <View style={styles.header}>
-        <Intervals data={props.data} />
         <IntervalOptions data={intervals} />
+        <Intervals data={props.data} />
       </View>
-      <View style={{ width, height: 400, margin: spacing }}>
-        {/* <Text>Render</Text> */}
+      <View style={{ width, height }}>
+        <Chart data={props.data} />
       </View>
-    </View>
+    </Fragment>
   );
 }
 

@@ -11,18 +11,18 @@ const styles = StyleSheet.create({
 });
 
 const data = [
-  { date: new Date('1/1/2020'), value: 6000 },
-  { date: new Date('2/1/2020'), value: 4000 },
-  { date: new Date('3/1/2020'), value: 5645 },
-  { date: new Date('4/1/2020'), value: 4700 },
-  { date: new Date('5/1/2020'), value: 6900 },
-  { date: new Date('6/1/2020'), value: 4356 },
-  { date: new Date('7/1/2020'), value: 3289 },
-  { date: new Date('8/1/2020'), value: 6300 },
-  { date: new Date('9/1/2020'), value: 3200 },
-  { date: new Date('10/1/2020'), value: 6500 },
-  { date: new Date('11/1/2020'), value: 4300 },
-  { date: new Date('12/1/2020'), value: 6900 },
+  { x: new Date('1/1/2020'), y: 6000 },
+  { x: new Date('2/1/2020'), y: 4000 },
+  { x: new Date('3/1/2020'), y: 5645 },
+  { x: new Date('4/1/2020'), y: 4700 },
+  { x: new Date('5/1/2020'), y: 6900 },
+  { x: new Date('6/1/2020'), y: 4356 },
+  { x: new Date('7/1/2020'), y: 3289 },
+  { x: new Date('8/1/2020'), y: 6300 },
+  { x: new Date('9/1/2020'), y: 3200 },
+  { x: new Date('10/1/2020'), y: 6500 },
+  { x: new Date('11/1/2020'), y: 4300 },
+  { x: new Date('12/1/2020'), y: 6900 },
 ];
 
 const App = () => {
