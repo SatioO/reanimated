@@ -12,8 +12,8 @@ const width = Dimensions.get('window').width - 20;
 const height = 135;
 
 export default memo((props) => {
-  const dataXrange = d3.extent(props.data.map((d) => d.date));
-  const dataYrange = d3.extent(props.data, (d) => d.value);
+  const dataXrange = d3.extent(props.data.map((d) => d.x));
+  const dataYrange = d3.extent(props.data, (d) => d.y);
 
   const scaleX = d3.scaleTime().domain(dataXrange).range([0, width]).nice();
 
@@ -24,8 +24,8 @@ export default memo((props) => {
 
   const d = d3
     .line()
-    .x((d) => scaleX(d.date))
-    .y((d) => scaleY(d.value))
+    .x((d) => scaleX(d.x))
+    .y((d) => scaleY(d.y))
     .curve(d3.curveNatural)(props.data);
 
   function onValue(value) {
