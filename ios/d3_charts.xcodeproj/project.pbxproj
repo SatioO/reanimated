@@ -20,6 +20,8 @@
 		8126618F6D34B52300820EE8 /* libPods-d3_charts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7C457CABF0E6DC6CD666929 /* libPods-d3_charts.a */; };
 		A3892D38F307A16E7F47B662 /* libPods-d3_charts-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BB492F5DB371CBB57293A464 /* libPods-d3_charts-tvOS.a */; };
 		BEC7EE352442AF23021DB11B /* libPods-d3_charts-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C2BE34C88A953FCC3725395A /* libPods-d3_charts-tvOSTests.a */; };
+		F7A4C7AA24ACF2DA003DC8E4 /* Gotham-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = F7A4C7A924ACF2DA003DC8E4 /* Gotham-Bold.otf */; };
+		F7A4C7AC24ACF2E3003DC8E4 /* Gotham-Book.otf in Resources */ = {isa = PBXBuildFile; fileRef = F7A4C7AB24ACF2E3003DC8E4 /* Gotham-Book.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +68,8 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		F72F174B24AC9B4300BAA79C /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		F7A4C7A924ACF2DA003DC8E4 /* Gotham-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Gotham-Bold.otf"; path = "../../../Gotham-Bold.otf"; sourceTree = "<group>"; };
+		F7A4C7AB24ACF2E3003DC8E4 /* Gotham-Book.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Gotham-Book.otf"; path = "../../../Gotham-Book.otf"; sourceTree = "<group>"; };
 		F84C55EAEA690FBEBAF23CFA /* Pods-d3_charts-d3_chartsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-d3_charts-d3_chartsTests.debug.xcconfig"; path = "Target Support Files/Pods-d3_charts-d3_chartsTests/Pods-d3_charts-d3_chartsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F9286FB0AAA6B1B45E95B153 /* Pods-d3_charts-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-d3_charts-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-d3_charts-tvOSTests/Pods-d3_charts-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -131,6 +135,8 @@
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				F72F174B24AC9B4300BAA79C /* MaterialIcons.ttf */,
+				F7A4C7AB24ACF2E3003DC8E4 /* Gotham-Book.otf */,
+				F7A4C7A924ACF2DA003DC8E4 /* Gotham-Bold.otf */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
@@ -341,7 +347,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F7A4C7AA24ACF2DA003DC8E4 /* Gotham-Bold.otf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				F7A4C7AC24ACF2E3003DC8E4 /* Gotham-Book.otf in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

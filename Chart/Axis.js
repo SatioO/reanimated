@@ -55,6 +55,7 @@ export default function XAxis(props) {
               top: props.height - 20,
               left: i === 0 ? props.scaleX(tick) + 4 : props.scaleX(tick) - 8,
               color: '#FFF',
+              fontFamily: 'Gotham-Book',
               fontSize: 12,
             }}
             key={tick}>

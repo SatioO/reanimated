@@ -75,6 +75,14 @@ export default function Cursor(props) {
     extrapolate: Extrapolate.CLAMP,
   });
 
+  useEffect(() => {
+    Animated.timing(scaleX, {
+      toValue: 1,
+      duration: 600,
+      easing: Easing.inOut(Easing.ease),
+    }).start();
+  });
+
   useCode(() =>
     block([
       cond(eq(state, State.UNDETERMINED), [set(offsetX, lsI)]),
@@ -82,22 +90,6 @@ export default function Cursor(props) {
     ]),
   );
   useCode(() => call([ty], ([y]) => props.onValue(y), [ty]));
-
-  // useCode(() =>
-  //   call(
-  //     [props.animation],
-  //     (value) => {
-  //       if (value > 1) {
-  //         Animated.timing(scaleX, {
-  //           easing: Easing.ease,
-  //           duration: 500,
-  //           toValue: 1,
-  //         }).start();
-  //       }
-  //     },
-  //     [props.rotateYAsDeg],
-  //   ),
-  // );
 
   return (
     <PanGestureHandler {...gestureHandler}>

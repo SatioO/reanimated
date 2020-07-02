@@ -17,8 +17,6 @@ import Animated, {
 } from 'react-native-reanimated';
 import { TapGestureHandler, State } from 'react-native-gesture-handler';
 
-const width = Dimensions.get('window').width;
-
 const styles = StyleSheet.create({
   shadow: {
     shadowColor: '#333',
@@ -32,7 +30,6 @@ const styles = StyleSheet.create({
   },
   card: {
     height: 200,
-    width: width - 20,
     padding: 10,
     backgroundColor: '#8C04FF',
     backfaceVisibility: 'hidden',
@@ -61,6 +58,7 @@ function Bars() {
               {
                 ...StyleSheet.absoluteFillObject,
                 backfaceVisibility: 'hidden',
+                width: props.width,
                 transform: [
                   { perspective: 800 },
                   { rotateY: '180deg' },

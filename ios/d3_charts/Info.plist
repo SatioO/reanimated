@@ -41,6 +41,8 @@
 	<string></string>
 	<key>UIAppFonts</key>
 	<array>
+		<string>Gotham-Bold.otf</string>
+		<string>Gotham-Book.otf</string>
 		<string>MaterialIcons.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
