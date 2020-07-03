@@ -15,8 +15,9 @@ import Animated, {
   neq,
   lessThan,
   sub,
+  Easing,
 } from 'react-native-reanimated';
-import { useValue } from 'react-native-redash';
+import { useValue, withTimingTransition } from 'react-native-redash';
 import * as path from 'svg-path-properties';
 import { height, width } from './utils';
 
@@ -24,6 +25,7 @@ function Chart(props) {
   const cursor = useRef(null);
   const label = useRef(null);
   const currentPos = useValue(0);
+  const transition = withTimingTransition(currentPos, { easing: Easing.ease });
 
   const x = useValue(0);
 
@@ -80,7 +82,11 @@ function Chart(props) {
   useCode(() =>
     block(
       [
-        cond(greaterOrEq(translateX, nextPos), [set(currentPos, nextPos)], []),
+        cond(
+          greaterOrEq(translateX, sub(nextPos, 100)),
+          [set(currentPos, nextPos)],
+          [],
+        ),
         cond(lessThan(translateX, currentPos), [set(currentPos, prevPos)], []),
       ],
       [translateX],
@@ -110,7 +116,7 @@ function Chart(props) {
       style={{
         width,
         height,
-        transform: [{ translateX: concat('-', currentPos) }],
+        transform: [{ translateX: concat('-', transition) }],
       }}>
       <Svg {...{ width, height, ...StyleSheet.absoluteFillObject }}>
         <Path d={line} fill="none" stroke="rgb(125,240,50)" strokeWidth={3} />

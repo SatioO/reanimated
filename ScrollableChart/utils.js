@@ -17,5 +17,5 @@ export const months = [
 
 export const intervals = ['Monthly', 'Quarterly', 'Yearly'];
 export const spacing = 16;
-export const width = Dimensions.get('window').width + 100;
+export const width = Dimensions.get('window').width * 2;
 export const height = 200;

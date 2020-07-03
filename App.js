@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet, SafeAreaView } from 'react-native';
 import Chart from './Chart';
 import ScrollableChart from './ScrollableChart';
+import Cards from './Cards';
 
 const styles = StyleSheet.create({
   container: {
@@ -29,7 +30,7 @@ const App = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
-        <ScrollableChart {...{ data }} />
+        <Cards />
       </View>
     </SafeAreaView>
   );
